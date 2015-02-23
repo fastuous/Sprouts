@@ -5,10 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
@@ -22,27 +19,14 @@ public class Sprouts extends ApplicationAdapter {
 
 	SpriteBatch batch;
 	ImmediateModeRenderer renderer;
-	BitmapFont font;
-	CharSequence str;
-	Texture img;
 	List<Vector2> points = new LinkedList<Vector2>();
 	Path<Vector2> path;
 	final Vector2 tmpV = new Vector2();
 
 	@Override
 	public void create() {
-
-		renderer = new ImmediateModeRenderer20(false, false, 0);
+		renderer = new ImmediateModeRenderer20(false, true, 0);
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		font = new BitmapFont();
-		font.setColor(Color.BLACK);
-		font.setScale(2f);
-		String res = "";
-		res += "Width: " + Gdx.graphics.getWidth();
-		res += " Height: " + Gdx.graphics.getHeight();
-		res += " Density: " + Gdx.graphics.getDensity();
-		str = res;
 	}
 
 	@Override
@@ -52,7 +36,7 @@ public class Sprouts extends ApplicationAdapter {
 			points.add(new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY()));
 		}
 
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (points.size() > 0) {
