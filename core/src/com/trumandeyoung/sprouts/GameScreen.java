@@ -3,7 +3,7 @@ package com.trumandeyoung.sprouts;
 import com.badlogic.gdx.Screen;
 
 public class GameScreen implements Screen {
-	
+
 	GameState state;
 	GameRenderer renderer;
 	GameEngine engine;

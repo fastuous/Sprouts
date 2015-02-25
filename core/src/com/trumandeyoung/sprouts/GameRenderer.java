@@ -10,47 +10,47 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameRenderer {
 
-	private GameState state;
-	private ShapeRenderer renderer;
+    private GameState state;
+    private ShapeRenderer renderer;
 
-	private int samplePoints = 100;
-	private float sampleDistance = 1f / samplePoints;
-	
-	private Vector2 v1, v2;
+    private int samplePoints = 100;
+    private float sampleDistance = 1f / samplePoints;
 
-	public GameRenderer(GameState state) {
-		this.state = state;
-		
-		renderer = new ShapeRenderer();
-		
-		v1 = new Vector2();
-		v2 = new Vector2();
-	}
+    private Vector2 v1, v2;
 
-	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glLineWidth(2.5f);
+    public GameRenderer(GameState state) {
+        this.state = state;
 
-		renderer.begin(ShapeType.Line);
-		renderer.setColor(Color.BLACK);
-		for (Path<Vector2> path : state.getLines()) {
-			float val = 0;
-			path.valueAt(v2, 0);
-			while (val <= 1f) {
-				path.valueAt(v1, val);
-				renderer.line(v1, v2);
-				v2 = v1.cpy();
-				val += sampleDistance;
-			}
-		}
-		renderer.end();
-		
-		renderer.begin(ShapeType.Filled);
-		renderer.setColor(Color.GREEN);
-		for (Vector2 dot : state.getDots()) {
-			renderer.circle(dot.x, dot.y, 20);
-		}
-		renderer.end();
-	}
+        renderer = new ShapeRenderer();
+
+        v1 = new Vector2();
+        v2 = new Vector2();
+    }
+
+    public void render(float delta) {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glLineWidth(2.5f);
+
+        renderer.begin(ShapeType.Line);
+        renderer.setColor(Color.BLACK);
+        for (Path<Vector2> path : state.getLines()) {
+            float val = 0;
+            path.valueAt(v2, 0);
+            while (val <= 1f) {
+                path.valueAt(v1, val);
+                renderer.line(v1, v2);
+                v2 = v1.cpy();
+                val += sampleDistance;
+            }
+        }
+        renderer.end();
+
+        renderer.begin(ShapeType.Filled);
+        renderer.setColor(Color.GREEN);
+        for (Vector2 dot : state.getDots()) {
+            renderer.circle(dot.x, dot.y, 20);
+        }
+        renderer.end();
+    }
 }
