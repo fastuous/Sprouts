@@ -50,7 +50,6 @@ public class GameRenderer {
         renderer.end();
 
         renderer.begin(ShapeType.Filled);
-        renderer.setColor(Color.GREEN);
         for (Dot dot : gameState.getDots()) {
             renderer.setColor(dot.getColor());
             renderer.circle(dot.getX(), dot.getY(), 30);

@@ -1,5 +1,6 @@
 package com.trumandeyoung.sprouts;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,34 +9,34 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Tentatively the object to be serialized and passed over the network.
- * 
+ *
  * @author Truman
  */
-public class GameState {
+public class GameState implements Serializable {
 
-	private List<Path<Vector2>> lines;
-	private List<Dot> dots;
+    private List<Path<Vector2>> lines;
+    private List<Dot> dots;
     private int turn;
 
-	public GameState() {
-		lines = new LinkedList<Path<Vector2>>();
-		dots = new LinkedList<Dot>();
+    public GameState() {
+        lines = new LinkedList<Path<Vector2>>();
+        dots = new LinkedList<Dot>();
         turn = 0;
-	}
-	
-	public void addPath(Path<Vector2> path) {
-		lines.add(path);
-	}
+    }
 
-	public void addDot(Vector2 v) {
-		dots.add(new Dot(v));
-	}
-	
-	public List<Path<Vector2>> getLines() {
-		return lines;
-	}
-	
-	public List<Dot> getDots() {
-		return dots;
-	}
+    public void addPath(Path<Vector2> path) {
+        lines.add(path);
+    }
+
+    public void addDot(Vector2 v) {
+        dots.add(new Dot(v));
+    }
+
+    public List<Path<Vector2>> getLines() {
+        return lines;
+    }
+
+    public List<Dot> getDots() {
+        return dots;
+    }
 }
