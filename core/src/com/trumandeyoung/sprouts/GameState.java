@@ -14,26 +14,26 @@ import com.badlogic.gdx.math.Vector2;
 public class GameState {
 
 	private List<Path<Vector2>> lines;
-	private List<Vector2> dots;
+	private List<Dot> dots;
 
 	public GameState() {
 		lines = new LinkedList<Path<Vector2>>();
-		dots = new LinkedList<Vector2>();
+		dots = new LinkedList<Dot>();
 	}
 	
 	public void addPath(Path<Vector2> path) {
 		lines.add(path);
 	}
 
-	public void addDot(Vector2 dot) {
-		dots.add(dot);
+	public void addDot(Vector2 v) {
+		dots.add(new Dot(v));
 	}
 	
 	public List<Path<Vector2>> getLines() {
 		return lines;
 	}
 	
-	public List<Vector2> getDots() {
+	public List<Dot> getDots() {
 		return dots;
 	}
 }
