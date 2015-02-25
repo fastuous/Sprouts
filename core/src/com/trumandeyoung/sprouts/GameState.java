@@ -15,10 +15,12 @@ public class GameState {
 
 	private List<Path<Vector2>> lines;
 	private List<Dot> dots;
+    private int turn;
 
 	public GameState() {
 		lines = new LinkedList<Path<Vector2>>();
 		dots = new LinkedList<Dot>();
+        turn = 0;
 	}
 	
 	public void addPath(Path<Vector2> path) {

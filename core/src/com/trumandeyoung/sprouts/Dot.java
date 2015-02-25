@@ -25,7 +25,7 @@ public class Dot {
     }
 
     public int getLives() {
-        return lines;
+        return 3 - lines;
     }
 
     public float getX() {

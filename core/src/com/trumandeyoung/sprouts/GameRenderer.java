@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameRenderer {
 
-    private GameState state;
+    private GameState gameState;
     private ShapeRenderer renderer;
 
     private int samplePoints;
@@ -19,8 +19,8 @@ public class GameRenderer {
 
     private Vector2 v1, v2;
 
-    public GameRenderer(GameState state) {
-        this.state = state;
+    public GameRenderer(GameState gameState) {
+        this.gameState = gameState;
 
         renderer = new ShapeRenderer();
 
@@ -35,7 +35,7 @@ public class GameRenderer {
 
         renderer.begin(ShapeType.Line);
         renderer.setColor(Color.BLACK);
-        for (Path<Vector2> path : state.getLines()) {
+        for (Path<Vector2> path : gameState.getLines()) {
             samplePoints = ((CatmullRomSpline<Vector2>) path).controlPoints.length * 20;
             sampleDistance = 1f / samplePoints;
             float val = 0;
@@ -51,7 +51,7 @@ public class GameRenderer {
 
         renderer.begin(ShapeType.Filled);
         renderer.setColor(Color.GREEN);
-        for (Dot dot : state.getDots()) {
+        for (Dot dot : gameState.getDots()) {
             renderer.setColor(dot.getColor());
             renderer.circle(dot.getX(), dot.getY(), 30);
         }

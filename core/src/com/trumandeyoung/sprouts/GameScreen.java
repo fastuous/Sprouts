@@ -4,14 +4,14 @@ import com.badlogic.gdx.Screen;
 
 public class GameScreen implements Screen {
 
-	GameState state;
+	GameState gameState;
 	GameRenderer renderer;
 	GameEngine engine;
 	
 	public GameScreen() {
-		state = new GameState();
-		renderer = new GameRenderer(state);
-		engine = new GameEngine(state);
+		gameState = new GameState();
+		renderer = new GameRenderer(gameState);
+		engine = new GameEngine(gameState);
 	}
 
 	@Override
