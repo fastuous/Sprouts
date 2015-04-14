@@ -1,6 +1,9 @@
 package com.trumandeyoung.sprouts;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.input.GestureDetector;
 
 public class GameScreen implements Screen {
 
@@ -12,6 +15,10 @@ public class GameScreen implements Screen {
 		gameState = new GameState();
 		renderer = new GameRenderer(gameState);
 		engine = new GameEngine(gameState);
+		InputMultiplexer mux = new InputMultiplexer();
+		mux.addProcessor(new GestureDetector(renderer));
+		mux.addProcessor(engine);
+		Gdx.input.setInputProcessor(mux);
 	}
 
 	@Override
@@ -21,7 +28,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		engine.update(delta);
 		renderer.render(delta);
 	}
 

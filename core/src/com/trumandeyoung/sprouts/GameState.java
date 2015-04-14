@@ -3,6 +3,7 @@ package com.trumandeyoung.sprouts;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 
@@ -15,12 +16,18 @@ public class GameState {
 
 	private List<Path<Vector2>> lines;
 	private List<Dot> dots;
-    private int turn;
+	public int initDots = 2;
+	public float zoomLevel = 1;
+	public int turn;
+	public boolean myTurn;
+	public Vector2 fingerPos;
 
 	public GameState() {
 		lines = new LinkedList<Path<Vector2>>();
 		dots = new LinkedList<Dot>();
-        turn = 0;
+		dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 50)));
+		dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 50)));
+		turn = 0;
 	}
 	
 	public void addPath(Path<Vector2> path) {

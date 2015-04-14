@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 
-/**
- * Created by Truman on 2/25/2015.
- */
 public class Dot {
     private int lines;
     private Vector2 position;
@@ -26,6 +23,10 @@ public class Dot {
 
     public int getLives() {
         return 3 - lines;
+    }
+
+    public Vector2 getVector() {
+        return position;
     }
 
     public float getX() {
