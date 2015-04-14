@@ -16,6 +16,7 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
     private GameState gameState;
     private ShapeRenderer renderer;
 
+    private int controlPoints;
     private int samplePoints;
     private float sampleDistance;
 
@@ -50,7 +51,9 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
         renderer.begin(ShapeType.Line);
         renderer.setColor(Color.BLACK);
         for (Path<Vector2> path : gameState.getLines()) {
-            samplePoints = ((CatmullRomSpline<Vector2>) path).controlPoints.length * 20;
+            controlPoints = ((CatmullRomSpline<Vector2>) path).controlPoints.length;
+            if (controlPoints < 4) continue;
+            samplePoints = controlPoints * 20;
             sampleDistance = 1f / samplePoints;
             float val = 0;
             path.valueAt(v2, 0);
@@ -62,7 +65,7 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
             }
 
         }
-        if (gameState.myTurn) {
+        if (gameState.drawing && controlPoints > 3) {
             renderer.line(gameState.fingerPos, v1);
         }
 
@@ -71,7 +74,7 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
         renderer.begin(ShapeType.Filled);
         for (Dot dot : gameState.getDots()) {
             renderer.setColor(dot.getColor());
-            renderer.circle(dot.getX(), dot.getY(), 30);
+            renderer.circle(dot.getX(), dot.getY(), 50);
         }
         renderer.end();
     }

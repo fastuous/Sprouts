@@ -25,6 +25,18 @@ public class Dot {
         return 3 - lines;
     }
 
+    public void setLines(int lines) {
+        this.lines = lines;
+    }
+
+    public void lineInc() {
+        this.lines++;
+    }
+
+    public void lineDec() {
+        this.lines--;
+    }
+
     public Vector2 getVector() {
         return position;
     }

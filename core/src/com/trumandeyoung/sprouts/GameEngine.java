@@ -15,26 +15,29 @@ public class GameEngine extends InputAdapter {
 
 	private GameState gameState;
 	private CatmullRomSpline<Vector2> currentLine;
-	private List<Vector2> currentPoints;
+    private Dot startDot, endDot;
+    private List<Vector2> currentPoints;
 	private ListIterator<Vector2> iterator;
 
-	private boolean drawing;
 
 	public GameEngine(GameState gameState) {
 		this.gameState = gameState;
-		drawing = false;
-	}
+        gameState.drawing = false;
+    }
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		Vector2 first = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
 		boolean init = false;
+        gameState.drawing = false;
 
 		for (Dot dot : gameState.getDots()) {
-			if (dot.getVector().dst(first) < 30) {
-				init = true;
-				drawing = true;
-			}
+            if (dot.getVector().dst(first) < 50 && dot.getLives() > 0) {
+                startDot = dot;
+                startDot.lineInc();
+                init = true;
+                gameState.drawing = true;
+            }
 
 		}
 
@@ -46,10 +49,10 @@ public class GameEngine extends InputAdapter {
 			iterator = currentPoints.listIterator();
 			iterator.add(first);
 			iterator.add(first);
+            gameState.lastDot = first;
 
 			updatePath();
 			gameState.fingerPos = first.cpy();
-			gameState.myTurn = true;
 
 		}
 		return true;
@@ -57,28 +60,50 @@ public class GameEngine extends InputAdapter {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if (drawing) {
-			gameState.myTurn = false;
-			drawing = false;
-			Vector2 bisect = new Vector2();
-			currentLine.valueAt(bisect, 0.5f);
+        if (gameState.drawing) {
+            Vector2 last = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
+            boolean finish = false;
+            for (Dot dot : gameState.getDots()) {
+                if (dot.getVector().dst(last) < 50 && dot.getLives() > 0) {
+                    endDot = dot;
+                    finish = true;
+                }
+            }
+            if (finish) {
+                iterator = currentPoints.listIterator(currentPoints.size());
+                iterator.add(last);
+                iterator.add(last);
+                gameState.lastDot = last;
+                updatePath();
+                Dot bisect = new Dot(new Vector2());
+                currentLine.valueAt(bisect.getVector(), 0.5f);
 
-			gameState.addDot(bisect);
-		}
+                bisect.setLines(2);
+                gameState.addDot(bisect);
+                endDot.lineInc();
+            } else {
+                gameState.getLines().remove(currentLine);
+                startDot.lineDec();
+            }
+
+            gameState.drawing = false;
+        }
+
 		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		if (drawing) {
-			iterator = currentPoints.listIterator(currentPoints.size());
+        if (gameState.drawing) {
+            iterator = currentPoints.listIterator(currentPoints.size());
 			Vector2 lastPoint = iterator.previous();
 			Vector2 currentPoint = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
 
-			if (currentPoint.dst(lastPoint) > 200) {
-				iterator.next();
+            if (currentPoint.dst(lastPoint) > 70) {
+                iterator.next();
 				iterator.add(currentPoint);
-				updatePath();
+                gameState.lastDot = currentPoint;
+                updatePath();
 			}
 
 			gameState.fingerPos = currentPoint.cpy();
