@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 
@@ -15,11 +17,12 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class GameState {
 
+	public OrthographicCamera camera;
 	private List<Path<Vector2>> lines;
 	public Path<Vector2> currentLine;
 	private List<Dot> dots;
 	public int initDots = 2;
-	public float zoomLevel = 1;
+	public float zoomLevel = 0;
 	public int turn;
     public boolean drawing;
     public Vector2 fingerPos;
@@ -28,10 +31,12 @@ public class GameState {
 	public int dotRadius = 80;
 
 	public GameState() {
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		lines = new LinkedList<Path<Vector2>>();
 		dots = new LinkedList<Dot>();
-		dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 400)));
-		dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 400)));
+		dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 200)));
+		dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 200)));
 		turn = 0;
 	}
 	

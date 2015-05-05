@@ -1,20 +1,21 @@
 package com.trumandeyoung.sprouts;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.CatmullRomSpline;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Path;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
+import sun.rmi.runtime.Log;
 
 public class GameRenderer extends GestureDetector.GestureAdapter {
 
     private GameState gameState;
     private ShapeRenderer renderer;
+    private Camera camera;
 
     private int controlPoints;
     private int samplePoints;
@@ -24,6 +25,7 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
 
     public GameRenderer(GameState gameState) {
         this.gameState = gameState;
+        camera = gameState.camera;
 
         renderer = new ShapeRenderer();
 
@@ -33,11 +35,15 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        gameState.zoomLevel *= distance / initialDistance;
+        float factor = distance / initialDistance;
+        if (distance > initialDistance) {
+            camera.translate(0, 0, 0.2f * factor);
+        } else camera.translate(0, 0, -0.2f * factor);
+        Gdx.app.error("Sprouts", "zoomLevel = " + gameState.zoomLevel);
+
 
         return true;
     }
-
 
 
     public void render(float delta) {
@@ -45,11 +51,14 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glLineWidth(12f);
 
-        Matrix4 mat = renderer.getProjectionMatrix();
-        mat.scale(1.0f, 1.0f, gameState.zoomLevel);
-        renderer.setProjectionMatrix(mat);
+//        camera.rotate(new Vector3(0, 0, 1), gameState.zoomLevel);
+        camera.update();
+
+
+        renderer.setProjectionMatrix(camera.combined);
         renderer.begin(ShapeType.Line);
         renderer.setColor(new Color(0.7f, 0.7f, 0.7f, 1));
+
         for (Path<Vector2> path : gameState.getAllLines()) {
             controlPoints = ((CatmullRomSpline<Vector2>) path).controlPoints.length;
             if (controlPoints < 4) continue;
@@ -74,8 +83,11 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         renderer.begin(ShapeType.Filled);
+
         for (Dot dot : gameState.getDots()) {
             renderer.setColor(dot.getColor());
+            Vector2 v = new Vector2(dot.getVector());
+
             renderer.circle(dot.getX(), dot.getY(), gameState.dotRadius);
         }
         renderer.end();

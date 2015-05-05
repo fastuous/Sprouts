@@ -7,8 +7,6 @@ public class Sprouts extends Game {
 
     @Override
     public void create() {
-        Gdx.graphics.setContinuousRendering(false);
-        Gdx.graphics.requestRendering();
 
         setScreen(new GameScreen(2));
     }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import static com.badlogic.gdx.math.Intersector.intersectSegments;
 
@@ -37,6 +38,10 @@ public class GameEngine extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+//        int x = Gdx.input.getX();
+//        int y = Gdx.graphics.getHeight() - Gdx.input.getY();
+//        int z = 0;
+//        Vector3 v = gameState.camera.unproject(new Vector3(x, y, z));
         Vector2 first = new Vector2(screenX, Gdx.graphics.getHeight() - screenY);
         gameState.drawing = false;
 
@@ -118,7 +123,6 @@ public class GameEngine extends InputAdapter {
 
                 iterator = currentPoints.listIterator(currentPoints.size());
                 iterator.add(currentPoint);
-//                gameState.lastDot = currentPoint;
 
             }
 
@@ -131,7 +135,6 @@ public class GameEngine extends InputAdapter {
                         iterator = currentPoints.listIterator(currentPoints.size());
                         iterator.add(endDot.getVector());
                         iterator.add(endDot.getVector());
-//                    gameState.lastDot = currentPoint;
                         updatePath();
                         Dot bisect = new Dot(new Vector2());
                         currentLine.valueAt(bisect.getVector(), 0.5f);
@@ -157,21 +160,6 @@ public class GameEngine extends InputAdapter {
         return true;
     }
 
-//	public void update(float delta) {
-//
-//		if (Gdx.input.justTouched()) {
-//			Vector2 v = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-//			if (gameState.getAllLines().size() < turn) {
-//				gameState.addPath(new CatmullRomSpline<Vector2>());
-//				currentLine = (CatmullRomSpline<Vector2>) gameState.getAllLines().get(turn - 1);
-//			}
-//			currentPoints.add(v);
-//			gameState.addDot(v);
-//			Vector2 tempArr[] = new Vector2[currentPoints.size()];
-//			tempArr = currentPoints.toArray(tempArr);
-//			currentLine.set(tempArr, true);
-//		}
-//	}
 
     public void updatePath() {
         Vector2 tempArr[] = new Vector2[currentPoints.size()];
