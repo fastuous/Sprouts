@@ -30,13 +30,27 @@ public class GameState {
 
 	public int dotRadius = 80;
 
-	public GameState() {
+	public GameState(int startDots) {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		lines = new LinkedList<Path<Vector2>>();
 		dots = new LinkedList<Dot>();
-		dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 200)));
-		dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 200)));
+		if (startDots == 1) {
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
+		} else if (startDots == 2) {
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 + 400)));
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 400)));
+		} else if (startDots == 3) {
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2 - 300, Gdx.graphics.getHeight() / 2 + 300)));
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2 + 300, Gdx.graphics.getHeight() / 2 + 300)));
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2 - 300)));
+		} else {
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2 - 400, Gdx.graphics.getHeight() / 2 - 400)));
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2 + 400, Gdx.graphics.getHeight() / 2 - 400)));
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2 - 400, Gdx.graphics.getHeight() / 2 + 400)));
+			dots.add(new Dot(new Vector2(Gdx.graphics.getWidth() / 2 + 400, Gdx.graphics.getHeight() / 2 + 400)));
+		}
+
 		turn = 0;
 	}
 	

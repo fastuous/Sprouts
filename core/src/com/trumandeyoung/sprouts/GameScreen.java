@@ -1,5 +1,6 @@
 package com.trumandeyoung.sprouts;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -7,13 +8,15 @@ import com.badlogic.gdx.input.GestureDetector;
 
 public class GameScreen implements Screen {
 
+	Game game;
 	GameState gameState;
 	GameRenderer renderer;
 	GameEngine engine;
 
-	public GameScreen(int startDots) {
-		gameState = new GameState();
-		renderer = new GameRenderer(gameState);
+	public GameScreen(Game game, int startDots) {
+		this.game = game;
+		gameState = new GameState(startDots);
+		renderer = new GameRenderer(gameState, game);
 		engine = new GameEngine(gameState);
 		InputMultiplexer mux = new InputMultiplexer();
 		mux.addProcessor(new GestureDetector(renderer));

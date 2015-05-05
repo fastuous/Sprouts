@@ -8,7 +8,7 @@ public class Sprouts extends Game {
     @Override
     public void create() {
 
-        setScreen(new GameScreen(2));
+        setScreen(new SplashScreen(this));
     }
 
 }

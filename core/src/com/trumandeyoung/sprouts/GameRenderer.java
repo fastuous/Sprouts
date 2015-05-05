@@ -1,10 +1,10 @@
 package com.trumandeyoung.sprouts;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
@@ -14,7 +14,10 @@ import sun.rmi.runtime.Log;
 public class GameRenderer extends GestureDetector.GestureAdapter {
 
     private GameState gameState;
+    private Game game;
     private ShapeRenderer renderer;
+    private SpriteBatch batch;
+    private Texture back;
     private Camera camera;
 
     private int controlPoints;
@@ -23,27 +26,19 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
 
     private Vector2 v1, v2;
 
-    public GameRenderer(GameState gameState) {
+    public GameRenderer(GameState gameState, Game game) {
         this.gameState = gameState;
+        this.game = game;
         camera = gameState.camera;
 
         renderer = new ShapeRenderer();
+        batch = new SpriteBatch();
+        back = new Texture(Gdx.files.internal("button.jpg"));
 
         v1 = new Vector2();
         v2 = new Vector2();
     }
 
-    @Override
-    public boolean zoom(float initialDistance, float distance) {
-        float factor = distance / initialDistance;
-        if (distance > initialDistance) {
-            camera.translate(0, 0, 0.2f * factor);
-        } else camera.translate(0, 0, -0.2f * factor);
-        Gdx.app.error("Sprouts", "zoomLevel = " + gameState.zoomLevel);
-
-
-        return true;
-    }
 
 
     public void render(float delta) {
@@ -51,9 +46,17 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glLineWidth(12f);
 
-//        camera.rotate(new Vector3(0, 0, 1), gameState.zoomLevel);
-        camera.update();
+        if (Gdx.input.isTouched()) {
+            int x = Gdx.input.getX();
+            int y = Gdx.input.getY();
+            if (x < 200 && y < 200) {
+                game.setScreen(new SettingsScreen(game));
+            }
+        }
 
+        batch.begin();
+        batch.draw(back, 0, Gdx.graphics.getHeight() - 200);
+        batch.end();
 
         renderer.setProjectionMatrix(camera.combined);
         renderer.begin(ShapeType.Line);
