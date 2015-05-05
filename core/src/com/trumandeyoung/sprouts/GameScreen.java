@@ -10,8 +10,8 @@ public class GameScreen implements Screen {
 	GameState gameState;
 	GameRenderer renderer;
 	GameEngine engine;
-	
-	public GameScreen() {
+
+	public GameScreen(int startDots) {
 		gameState = new GameState();
 		renderer = new GameRenderer(gameState);
 		engine = new GameEngine(gameState);

@@ -43,14 +43,14 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glLineWidth(3f);
+        Gdx.gl.glLineWidth(12f);
 
         Matrix4 mat = renderer.getProjectionMatrix();
         mat.scale(1.0f, 1.0f, gameState.zoomLevel);
         renderer.setProjectionMatrix(mat);
         renderer.begin(ShapeType.Line);
-        renderer.setColor(Color.BLACK);
-        for (Path<Vector2> path : gameState.getLines()) {
+        renderer.setColor(new Color(0.7f, 0.7f, 0.7f, 1));
+        for (Path<Vector2> path : gameState.getAllLines()) {
             controlPoints = ((CatmullRomSpline<Vector2>) path).controlPoints.length;
             if (controlPoints < 4) continue;
             samplePoints = controlPoints * 20;
@@ -71,11 +71,14 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
 
         renderer.end();
 
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         renderer.begin(ShapeType.Filled);
         for (Dot dot : gameState.getDots()) {
             renderer.setColor(dot.getColor());
-            renderer.circle(dot.getX(), dot.getY(), 50);
+            renderer.circle(dot.getX(), dot.getY(), gameState.dotRadius);
         }
         renderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 }

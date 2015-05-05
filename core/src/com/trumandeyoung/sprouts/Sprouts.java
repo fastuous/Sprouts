@@ -10,7 +10,7 @@ public class Sprouts extends Game {
         Gdx.graphics.setContinuousRendering(false);
         Gdx.graphics.requestRendering();
 
-        setScreen(new GameScreen());
+        setScreen(new GameScreen(2));
     }
 
 }

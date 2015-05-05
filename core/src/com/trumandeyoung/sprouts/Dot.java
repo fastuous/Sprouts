@@ -14,9 +14,11 @@ public class Dot {
     }
 
     public Color getColor() {
-        Color color = Color.BLACK;
+        Color color = new Color(0.7f, 0.7f, 0.7f, 1);
 
-        if (lines < 3) color = Color.GREEN;
+
+        if (lines < 3) color = new Color(0.4f, 0.91f, 0.46f, 1);
+
 
         return color;
     }
