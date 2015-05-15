@@ -19,7 +19,7 @@ public class Dot {
 
         if (lines < 3) color = new Color(0.4f, 0.91f, 0.46f, 1);
 
-
+        color.a = 0.6f;
         return color;
     }
 

@@ -36,6 +36,17 @@ public class GameEngine extends InputAdapter {
         return false;
     }
 
+    private boolean collision(Vector2 p0, Vector2 p1, Vector2 q0, Vector2 q1) {
+        Vector2 t = new Vector2();
+
+        if (intersectSegments(p0, p1, q0, q1, t)) {
+            if (t.equals(p0) || t.equals(p1) || t.equals(q0) || t.equals(q1)) return false;
+            else return true;
+        }
+
+        return false;
+    }
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 //        int x = Gdx.input.getX();
@@ -94,7 +105,7 @@ public class GameEngine extends InputAdapter {
 
             if (!inStartDot(currentPoint)) leftStartDot = true;
 
-            if (currentPoint.dst(lastPoint) > gameState.dotRadius) {
+            if (currentPoint.dst(lastPoint) > 5) {
 
                 // start collision checking
                 for (Path<Vector2> path : gameState.getAllButCurrentLine()) {
@@ -107,7 +118,7 @@ public class GameEngine extends InputAdapter {
                     path.valueAt(v2, 0);
                     while (val <= 1f) {
                         path.valueAt(v1, val);
-                        if (!inStartDot(lastPoint) && intersectSegments(lastPoint, currentPoint, v1, v2, null)) {
+                        if (collision(lastPoint, currentPoint, v1, v2)) {
                             gameState.getAllLines().remove(currentLine);
                             gameState.currentLine = null;
                             gameState.drawing = false;

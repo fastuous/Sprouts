@@ -77,7 +77,7 @@ public class GameRenderer extends GestureDetector.GestureAdapter {
             }
 
         }
-        if (gameState.drawing && controlPoints > 3) {
+        if (gameState.drawing && controlPoints > 1) {
             renderer.line(gameState.fingerPos, v1);
         }
 
